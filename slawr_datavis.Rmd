@@ -1,0 +1,99 @@
+---
+title: "datasets for SLAWR REU data vis"
+author: "rachel torres"
+date: "2025-06-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data sets for Case studies 
+
+
+
+### 1. Mercury levels in fish 1998 v. 2023 
+
+Condense to paragraph - 
+
+Members of the K’avi have fished the waters on their land for many years to provide food for their community. To manage these waters, K’avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community.
+
+However, many members of the community have begun to experience health problems associated with heavy metal poisoning. Historically, a factory used to be located upstream of the riverways fished by the K’avi, and waste from this factory was dumped into the nearby waters. Tribal fishery managers are now concerned that members of the community are being exposed to heavy metals, like methylmercury, through the fish that have been caught in these waters. As a result, they now want to start recording the concentrations of methylmercury (mercury) in the belly fat of fish in the area. The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined a Reference Dose (RfD) of mercury at 0.1ug per kg of body weight.
+
+Additionally, the Food and Drug Administration recommends eating no more than 0.46ug methylmercury/g of fish within a week (FDA). Health hazards depend on how much fish a person consumes as well as their size, so the RfD could range between 0.15ug to 0.46ug. These values are explored more in the code.
+
+Back in 1998, the tribal fisheries managers caught fish and measured their length and also the concentration of mercury in the fish. The goals of these managers was to learn how common it was for concentrations of mercury to be above a safety level of 0.46ug/g.
+
+Once they collect these data, the tribal fishery managers will need to present their findings to members of the community so they can better understand the public health crisis at hand.
+
+Columns: 
+
+- mercury content ug/g/
+- length (cm)
+- year 
+
+### 2. Water quality time series comparing 2 streams 
+
+Water is a valuable resource that is important for maintaining many aspects of a community’s well being. “Water quality” captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO).
+
+Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects community culture, because, to thrive, bull trout require water temperatures below 14 
+C and dissolved oxygen levels above 6.5 mg/L. Such cold clean water conditions are growing scarcer due to climate warming and pollution.
+
+It is also important to note that water temperature and levels of dissolved oxygen are related. As water temperature increases, dissolved oxygen levels decrease in water. This is concerning as climate warming has the power to increase water temperature, causing dissolved oxygen to dip to unhealthy levels for aquatic life.
+
+In this module, we will use data about water quality trends to help K’avi Fish and Wildlife managers decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding to bring the bull trout back to one stream. They have narrowed the choice of possible locations for the reintroduction to two streams, where temperature and D.O. have been monitored for about 15 years. Neither site is perfect, but they are both pretty good options. Your job is to analyze the temperature and D.O. data to help the tribe decide which is the best site.
+
+The upstream source of Stream A is a groundwater spring. Water in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature. The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial melt-water is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
+
+
+Columns:
+
+- year 
+- stream temperature (C)
+- dissolved oxygen 
+- sample site 
+
+### 3. Temperature in Minnesota 
+
+
+This data set includes average monthly minimum and maximum air temperature for the city of Minneapolis-St. Paul. It is from the NOAA National Centers for Environmental Information climate monitoring [Climate at a glance City time series](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/city/time-series). The data is derived from the Historical Observing Metadata Repository, which integrates station history metadata.  
+
+
+Columns: 
+
+- year 
+- month 
+- Min (degF)
+- Max (degF)
+
+### 4. something about fish species 
+
+inaturalist - query was: 
+
+quality_grade=research&
+identifications=any&
+iconic_taxa[]=Actinopterygii&
+place_id=124854&
+verifiable=true&
+threatened=true&
+introduced=false&
+native=true&
+popular=true
+
+
+```{r}
+
+library(tidyverse)
+
+inat = read.csv("~/Downloads/observations-586963.csv/observations-586963.csv")
+
+head(inat)
+
+unique(inat$common_name)
+
+ggplot(inat, aes(y=common_name, fill=place_state_name)) + geom_bar()
+```
+
+
+

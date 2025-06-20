@@ -1,0 +1,41 @@
+---
+title: "Getting started in R"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Load package 
+
+"Packages" are computer code that someone wrote to do a particular thing. By loading a package, R downloads that code, so that you can do that thing yourself. Think of packages as tools for you to use in R that aren't automatically part of R when you first installed it. The package below allows you to do  more things in R, and makes coding much easier! 
+
+Below, we install the package "tidyverse" which we'll use to organize data and to make pretty graphs. You only need to install a package once, but every time you use R you will have to load from the library using `library()`
+ 
+
+```{r}
+# if running for the first time, install the package 
+if(!require("tidyverse")) install.packages("tidyverse") 
+
+# every time you start R, load your package using library() 
+library(tidyverse)
+
+```
+
+## Getting screening value of mercury in fish 
+
+Start coding in the chunk below!
+
+```{r}
+
+
+
+```
