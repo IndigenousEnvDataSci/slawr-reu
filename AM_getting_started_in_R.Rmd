@@ -1,14 +1,26 @@
 ---
-title: "Getting started in R"
+title: "Getting started in R with calculating screening values of mercury in fish"
 output: html_document
 date: "`r Sys.Date()`"
+author: your name here
 ---
+
+This document contains some R code to get you started. We will walk through step by step how to use R for creating objects, data frames, and plots (and we will talk about what these are!). Our main focus is looking at how screening  values for fish consumption depends on the size of a person and how often they are eating fish. The calculations used in this example can be found on the [FDA website](https://www.fda.gov/food/environmental-contaminants-food/technical-information-development-fdaepa-advice-about-eating-fish-those-who-might-become-or-are).
+
+
+## Learning goals:
+
+1. Identify the function name that loads packages
+2. Recognize objects including variables, vectors, and data frames 
+3. Calculate values using mathematical operations and functions 
+4. Generate a scatterplot using ggplot2
+5. Describe the relationships between body weight, weekly servings, and screening values (safe limits)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## About R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 

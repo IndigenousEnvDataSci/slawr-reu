@@ -1,0 +1,228 @@
+---
+title: "Data Visualization Case Studies"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+Read about the data sets provided below, and select one to explore and create plots from. With a team, you will present these plots at the end of the day, along with a story about why the data is important and what you would want to communicate to the community it belongs to. Your presentation could be a slide show or a knit R markdown document. 
+
+For the first two case studies, the data is based on a fictional tribe called the K’avi. The location is also fictional, but representative of a place with ample surface water, a high elevation stream network fed by glaciers with wetlands and a lake. Data is similar to data that has been collected in Western Montana, but for the purpose of these activities, we use ‘dummy’ data we created. 
+
+The second two studies contain real life data that has been formatted for easier plotting. These data sets are specific to the state of Minnesota. For these examples, you may want to consider the relevance for your own communities.  
+
+### Learning goals: 
+
+1. Understand how data visualization is a tool for communication 
+2. Analyze different types of plots and when to apply them (i.e. bar plot, boxplot, scatter, etc.) 
+3. Create different plots using `ggplot` to explore and communicate data for an environmental management case study for a community 
+
+### Checklist for creating a visualization in ggplot: 
+
+- Do you have continuous, discrete, or categorical data? 
+- What type of plots represent your data? 
+- Clearly label axis with `labs()` and title with `ggtitle()`
+- What colors do you want to represent your data? See a list of colors [here](https://r-charts.com/colors/) and for an extra level of customization, check out color palettes from [paleteer package](https://r-graph-gallery.com/color-palette-finder)
+- Reference the [ggplot cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) to see the functions for different geoms and themes. 
+
+## 1. Mercury levels in fish 1998 v. 2023 
+
+`fish_samples_mercury.csv`  
+
+Members of the K’avi have fished the waters on their land for many years to provide food for their community. To manage these waters, K’avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community.
+
+However, many members of the community have begun to experience health problems associated with heavy metal poisoning. Historically, a factory was located upstream of the riverways fished by the K’avi, and waste from this factory was dumped into the nearby waters. Tribal fishery managers are now concerned that members of the community are being exposed to heavy metals, like methylmercury, through the fish that have been caught in these waters. As a result, they now want to start recording the concentrations of methylmercury (mercury) in the belly fat of fish in the area. The tribe uses [guidance from the Food and Drug Administration](https://www.fda.gov/food/environmental-contaminants-food/technical-information-development-fdaepa-advice-about-eating-fish-those-who-might-become-or-are), which recommends eating no more than 0.46$\mu$g methylmercury/g of fish within a week. 
+
+In 1998, the tribal fisheries managers caught fish and measured their length and also the concentration of mercury in the fish. The goal of these managers was to learn how common it was for concentrations of mercury to be above a safety level of 0.46 $\mu$g/g. Once they collected the data, the tribal fishery managers need to present their findings to members of the community so they could better understand the public health crisis at hand. This data frame contains sampled data from 1998 and 2023. 
+
+How can you explore, analyze, and visualize the data to compare the fish samples from 1998 and 2023? How do you plan to communicate these findings to the community? 
+
+**Columns:** 
+
+- `mercury`: mercury content found in fish sample, in $\mu$g/g
+- `length`: length of fish sampled, in cm
+- `year`: year sample was taken   
+
+Sample data read in: 
+```{r fish_merc}
+# read in data frame 
+fish <- read.csv("data/fish_samples_mercury.csv")
+
+# convert year to a factor for easier plotting 
+fish$year = as.factor(fish$year)
+
+ggplot(fish, aes(x=year, y=mercury)) + geom_boxplot() +
+   theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=12)) + 
+  # set a title 
+  ggtitle("Fish mercury concentration at two sample periods")
+
+ggplot(fish, aes(x=length, y=mercury, col=year)) + geom_point() +
+  theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=12)) + 
+  # set a title 
+  ggtitle("Fish length (cm) v. mercury content (ug)")
+
+```
+
+## 2. Water quality time series comparing 2 streams 
+
+`stream_water_quality.csv`
+
+Water is a valuable resource important for maintaining many aspects of a community’s well-being. “Water quality” captures many components of the chemistry, biology, and physics of fresh water. This data contains two of these components, water temperature and dissolved oxygen (D.O.).
+
+Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects community culture, because, to thrive, bull trout require water temperatures below 14°C and D.O. levels above 6.5 mg/L. Such cold clean water conditions are growing scarcer due to climate warming and pollution.
+
+This data includes water quality trends to help K’avi Fish and Wildlife managers decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding for reintroduction to one stream, and have narrowed the choice to two streams, where temperature and D.O. have been monitored for about 15 years. Neither site is perfect, but they are both viable options. 
+
+The upstream source of Stream A is a groundwater spring. Water in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average annual temperature. The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial melt-water is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
+
+Your task is to analyze the temperature and D.O. data to help the tribe decide which is the optimal site. Consider how to present your findings to communicate recommendations, and consider what additional factors would be useful in the decision making process. 
+
+**Columns:**
+
+- `year`: year that sample was taken 
+- `site`: location of sample, either `StreamA`, which is sourced by a groundwater spring, or `StreamB`, which is downstream from an alpine lake fed by a glacier. 
+- `temperature_C`: stream water temperature, in degrees C
+- `dissolved_oxygen`:  stream water dissolved oxygen levels, in mg/L
+
+Sample read in data:
+```{r wq}
+
+streams = read.csv("data/stream_water_quality.csv")
+
+ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site)) +
+  # Then we specify a scatter plot (points) and set the size of the points to 4 
+  geom_point(size=4) +
+  # increase size of text 
+  theme(text=element_text(size=20)) +
+  # add a horizontal line to represent threshold of dissolved oxygen 
+  geom_hline(yintercept = 6.2, col = "red") +
+  # add a vertical line to represent a threshold of maximum temperature 
+  geom_vline(xintercept = 14, col = "red") +
+  # We'll use the same simple "theme" we used in module 1.
+  theme(text=element_text(size=12))
+
+ggplot(streams, aes(year, temperature_C, color = site)) +
+  # We start by plotting points (as we did in the scatter plot code)
+  geom_point(size=4) +
+  # Next, we add lines connecting adjacent points in time using geom_line()
+  # Note how ggplot() allows you to add features like lines in a step by step way. 
+  geom_line(size=2) +
+  # We'll add a line indicating the "danger zone" of temperatures above 14 C.
+  geom_hline(yintercept = 14, col = "red", linetype="dashed") +
+  # and we'll use the same theme as always.
+  theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=12)) + 
+  # set a title 
+  ggtitle("Stream temperature (C) over time")
+
+```
+
+## 3. Rising temperatures in the Twin Cities  
+
+`MN_temperature.csv`
+
+Climate change is causing land surface temperatures to rise, leading to various harmful effects for ecosystems and communities. This is particularly concerning in urban areas, which have higher populations and more built environment that creates an urban heat island effect. In these areas, higher temperatures can pose a significant health risk to residents. 
+
+To gain a better understanding of how much temperature is rising and what to expect in the near future, we can analyze long-term historic monthly temperature trends. 
+
+This dataset includes average monthly minimum and maximum air temperature for the city of Minneapolis-St. Paul. The data was downloaded from the NOAA National Centers for Environmental Information climate monitoring [Climate at a glance City time series](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/city/time-series). The NOAA City data is derived from the Historical Observing Metadata Repository, which integrates station history metadata.
+
+How can you visualize both long term trends and seasonal patterns of temperature?
+Consider what type of visualization would best communicate the urgency of rising temperatures to policymakers and residents.
+
+**Columns:** 
+
+- `year_month`: year and month of the average temperature, with first day included to be made into a date  
+- `year`: year 
+- `month`: month 
+- `max_temp_f`: maximum monthly temperatures, in degrees F 
+- `min_temp_f`: minimum monthly temperatures, in degrees F 
+
+```{r temp}
+# read in data 
+temps = read.csv("data/MN_temperature.csv")
+
+# convert year-month format to date 
+temps$year_month = as.Date(temps$year_month)
+
+ggplot(temps, aes(x=year_month)) +
+     geom_line(aes(y=max_temp_f), col="red") +
+     geom_line(aes(y=min_temp_f), col="blue") +
+    theme_minimal() +
+  # make text larger 
+    theme(text=element_text(size=12)) + 
+  # set a title 
+    ggtitle("Monthly average min and max temperature (F)")
+
+temps %>% dplyr::filter(year==1940 | year==2020) %>% 
+  ggplot(aes(x=month, linetype=as.factor(year))) +
+  geom_line(aes(y=max_temp_f), col="red") + 
+  geom_line(aes(y=min_temp_f), col="blue") +
+  theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=12)) + 
+  # set a title 
+  ggtitle("Comparing monthly average temperature, 1940 to 2020")
+
+temps %>% filter(month==6) %>% 
+  ggplot(aes(x=year, y=min_temp_f)) +
+  geom_point() + 
+  geom_smooth(method='lm') +
+  theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=12)) + 
+  # set a title 
+  ggtitle("Average minimum temperature in June")
+
+
+```
+
+## 4. Surveying fish species in MN and WI 
+
+`inaturalist_fish_count.csv`
+
+Citizen science is a form of research that includes communities in collaborative  data collection. Participants can contribute to data monitoring and collection. One example is iNaturalist, an online network of people sharing biodiversity information, where communities can collect data and learn about biodiversity in their area. Species that are identified and confirmed by scientists are labeled as 'research grade' for use in research projects and decision making. 
+
+The fishing community can use this data to aid in identifying their catches and making decisions about where to fish, or what fish species to keep. For example, if a species is labeled as 'threatened' then it may be better to release it back into the water. This type of information should be available through the [Minnesota Department of Natural Resources](https://www.dnr.state.mn.us/fishing/index.html) for specific lakes. However, citizen science monitoring can aid in the process of protecting threatened species by using data from iNaturalist to track observations. As a fisherman, scientist, or community member, how would this information be useful to you?    
+
+This dataset was downloaded from iNaturalist and then reformatted to show the frequency, or count, of observations per fish species aggregated to the state level. The query to download included all research grade observations in Minnesota and Wisconsin of native and threatened fish species. 'Threatened' refers to taxa that have a conservation status with an IUCN equivalent of Near Threatened or worse specified ([How to use iNaturalist's search URLs](https://www.inaturalist.org/pages/search+urls#taxon-status)).
+
+How would you compare the observation frequencies of threatened fish species between Minnesota and Wisconsin? How would this information support fishing communities and conservation scientists? What other information would be helpful to know? 
+
+**Columns:**
+
+- `place_state_name`: state where observation occurred
+- `common_name`: common name of fish species 
+- `count`: count of observations on iNaturalist 
+
+```{r inat}
+
+inat = read.csv("data/inaturalist_fish_count.csv")
+
+ggplot(inat, aes(x=place_state_name, y=count)) +
+  geom_boxplot()
+
+
+ggplot(inat, aes(y=common_name, 
+                     x=count, 
+                     fill=place_state_name)) +
+  geom_col() +
+  theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=12)) + 
+  # set a title 
+  ggtitle("Count of threatened fish species observed in iNaturalist in MN/WI")
+
+```
+
+
+
