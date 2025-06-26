@@ -15,6 +15,10 @@ For the first two case studies, the data is based on a fictional tribe called th
 
 The second two studies contain real life data that has been formatted for easier plotting. These data sets are specific to the state of Minnesota. For these examples, you may want to consider the relevance for your own communities.  
 
+The data here can be communicated with ggplot, but there may be other ways to tell the story with art, music, and writing. As you work in your groups, use any methods that are interesting and make sense to you!  
+
+Add you story to these slides: [hum.link/data-vis-slides](https://hum.link/data-vis-slides)
+
 ### Learning goals: 
 
 1. Understand how data visualization is a tool for communication 
@@ -133,6 +137,8 @@ The fishing community can use this data to aid in identifying their catches and 
 This dataset was downloaded from iNaturalist and then reformatted to show the frequency, or count, of observations per fish species aggregated to the state level. The query to download included all research grade observations in Minnesota and Wisconsin of native and threatened fish species. 'Threatened' refers to taxa that have a conservation status with an IUCN equivalent of Near Threatened or worse specified ([How to use iNaturalist's search URLs](https://www.inaturalist.org/pages/search+urls#taxon-status)).
 
 How would you compare the observation frequencies of threatened fish species between Minnesota and Wisconsin? How would this information support fishing communities and conservation scientists? What other information would be helpful to know? 
+
+*Bonus*: if you want to see the entire data set, you can also upload `MN_data_prep/observations-587687.csv`
 
 **Columns:**
 

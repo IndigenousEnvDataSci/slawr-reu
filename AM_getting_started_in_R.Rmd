@@ -17,6 +17,7 @@ This document contains some R code to get you started. We will walk through step
 5. Describe the relationships between body weight, weekly servings, and screening values (safe limits)
 
 ```{r setup, include=FALSE}
+if(!require("knitr")) install.packages("knitr") 
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
