@@ -13,6 +13,8 @@ Welcome to the Github repository for the SLAWR REU indigenous environmental data
 
 We will start with the file `AM_getting_started_in_R.Rmd` and follow along with live coding to get introduced to R. The 'Module 1' worksheet is a guide to follow along with this code.
 
+To view the live code we worked through in the morning, see `AM_getting_started_in_R_live_code.Rmd`
+
 ### Follow along worksheets: {#follow-along-worksheets}
 
 These worksheets will be printed out for in person use as guides to follow along with code and check for understanding. The online versions open as Google docs, and can be copied to edit.
