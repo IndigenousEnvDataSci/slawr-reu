@@ -1,0 +1,173 @@
+---
+title: "Getting started in R with calculating screening values of mercury in fish"
+output: html_document
+date: "`r Sys.Date()`"
+author: your name here 
+---
+
+This document contains some R code to get you started. We will walk through step by step how to use R for creating objects, data frames, and plots (and we will talk about what these are!). Our main focus is looking at how screening  values for fish consumption depends on the size of a person and how often they are eating fish. The calculations used in this example can be found on the [FDA website](https://www.fda.gov/food/environmental-contaminants-food/technical-information-development-fdaepa-advice-about-eating-fish-those-who-might-become-or-are).
+
+## Learning goals:
+
+1. Identify the function name that loads packages
+2. Recognize objects including variables, vectors, and data frames 
+3. Calculate values using mathematical operations and functions 
+4. Generate a scatterplot using ggplot2
+5. Describe the relationships between body weight, weekly servings, and screening values (safe limits)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Load package 
+
+"Packages" are computer code that someone wrote to do a particular thing. By loading a package, R downloads that code, so that you can do that thing yourself. Think of packages as tools for you to use in R that aren't automatically part of R when you first installed it. The package below allows you to do  more things in R, and makes coding much easier! 
+
+Below, we install the package "tidyverse" which we'll use to organize data and to make pretty graphs. You only need to install a package once, but every time you use R you will have to load from the library using `library()`
+ 
+
+```{r}
+# if running for the first time, install the package 
+if(!require("tidyverse")) install.packages("tidyverse") 
+
+# every time you start R, load your package using library() 
+library(tidyverse)
+
+```
+
+## Getting screening value of mercury in fish 
+
+Start coding in the chunk below!
+
+### Creating objects 
+
+```{r}
+
+# define variables 
+weight = 150 # lbs 
+
+days_per_week = 2 # days per week eating fish 
+
+# example of using print function 
+print(weight)
+print(days_per_week)
+
+# example of checking the type of data
+typeof(days_per_week)
+
+```
+
+### Use R for calculations - consumption rate and screening value 
+
+```{r}
+
+# use our variables to calculate the mean daily consumption rate (cr)
+# FDA reference amounts customarily consumed (RACC) per eating occasion for fish and shellfish without sauce is 110 grams for uncooked fish.
+cr = 110*days_per_week/7 # daily consumption rate 
+print(cr)
+
+# calculate the safe limit screening value 
+# create another variable 
+RfD = 0.1 # ug mercurry/kg body weight/day 
+
+screening_value = RfD*weight*0.45/cr 
+print(screening_value)
+
+```
+
+### Create a vector 
+
+```{r}
+
+# make list 
+my_list <- list(100, "rachel", TRUE, 3.4)
+# lists can contain mix of different data types 
+
+# make another list - vectors 
+weight_vector <- c(140, 175, 200, 220)
+servings_per_week <- c(1, 7, 3, 4)
+# vectors have the same type of data 
+
+print(weight_vector)
+print(servings_per_week)
+
+# can also reference a single location within a vector
+weight_vector[1]
+```
+
+### Create a data frame from vectors 
+
+```{r}
+
+# create data frame with two columns - from the vectors weight, servings 
+sv_df <- data.frame(weight_vector, servings_per_week)
+
+head(sv_df) # preview the entire data frame 
+
+head(sv_df$weight_vector) # see the column weight 
+
+# Add column for screening value
+sv_df$screen_val = RfD * sv_df$weight_vector * 0.45 / (110 * sv_df$servings_per_week / 7)
+
+head(sv_df)
+
+```
+
+### Edit data frame 
+
+```{r}
+
+# add a new column - use mutate 
+sv_df %>% mutate(cr = 110*servings_per_week/7)
+
+# select only some columns 
+sv_df %>% select(servings_per_week, screen_val)
+
+# filter out rows 
+sv_df %>% filter(weight_vector < 150)
+
+```
+
+
+### Visualize data frame 
+
+```{r}
+
+# scaffold up to this plot 
+ggplot(data=sv_df, 
+      aes(x=servings_per_week, y=screen_val, col=weight_vector)) + 
+  geom_point(size=4) +
+  theme_bw() +
+  labs(x="Servings per week", y="Screening value (ug/g)", 
+       title="Mercury Screening Value v. Servings per Week")
+```
+
+### Read in data 
+
+```{r}
+
+sv_df_long = read.csv("data/screening_values_per_week.csv")
+
+# preview first 6 rows 
+head(sv_df_long)
+
+# preview structure of data frame 
+str(sv_df_long)
+
+ggplot(data=sv_df_long, 
+      aes(x=serving_per_week, y=screen_val, col=weight)) + 
+  geom_point(size=4) +
+  theme_bw() +
+  labs(x="Servings per week", y="Screening value (ug/g)", 
+       title="Mercury Screening Value v. Servings per Week")
+
+```
+
+
+
