@@ -28,7 +28,7 @@ We will read about the data sets in the document `PM_data_vis_case_studies.Rmd`,
 
 You may want to reference the [ggplot cheatsheet](https://ggplot2.tidyverse.org/).
 
-See the slides from the presentation [here]()
+See the slides from the presentation [here](https://github.com/IndigenousEnvDataSci/slawr-reu/blob/main/SLAWR%20EDS%20Day%20.pdf)
 
 If you want to learn more about Data Visualization, see the full presentation [here](https://www.canva.com/design/DAGHNv0h-Ig/0ylXDx-JgOxk7s8WWMnPYg/view?utm_content=DAGHNv0h-Ig&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h59d5ba4ec4). 
 
